@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: DV Odonto
+    orgId: 1
+    folder: DV Odonto
+    type: file
+    disableDeletion: true
+    editable: false
+    options:
+      path: /etc/grafana/provisioning/dashboards

@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: dv-odonto
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --threads 2 --timeout 120
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+      - key: ADMIN_USUARIO
+        value: davi
+      - key: ADMIN_NOME
+        value: Davi
+      - key: ADMIN_SENHA
+        sync: false
+      - key: ADMIN_PIN
+        sync: false

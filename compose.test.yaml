@@ -1,0 +1,27 @@
+# Homologacao isolada: banco ficticio, porta somente no loopback e volume deste projeto.
+services:
+  postgres-test:
+    image: postgres:16.8-alpine
+    environment:
+      POSTGRES_DB: dca_homologation
+      POSTGRES_USER: dca_test
+      POSTGRES_PASSWORD: ${DCA_TEST_POSTGRES_PASSWORD:?Use o arquivo .env.homologation.test.example}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "127.0.0.1:55439:5432"
+    volumes:
+      - postgres_homologation_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dca_test -d dca_homologation"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - homologation
+
+volumes:
+  postgres_homologation_data:
+
+networks:
+  homologation:
+    internal: true

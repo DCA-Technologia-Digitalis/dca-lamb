@@ -1,0 +1,307 @@
+services:
+
+  # ── Nginx — proxy reverso e HTTPS ──────────────────────────────────────────
+  nginx:
+    image: nginx:1.27.4-alpine
+    restart: unless-stopped
+    environment:
+      DOMAIN: "${DOMAIN:?Configure DOMAIN in .env}"
+      NGINX_ENVSUBST_FILTER: "^DOMAIN$"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/nginx/conf.d/app.conf:/etc/nginx/templates/app.conf.template:ro
+      - ./infra/nginx/certs:/etc/nginx/certs:ro
+      - static_files:/app/static:ro
+    depends_on:
+      web:
+        condition: service_healthy
+    networks:
+      - frontend
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+
+  # ── Backend Flask ───────────────────────────────────────────────────────────
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: "8000"
+      SESSION_COOKIE_SECURE: "true"
+      GUNICORN_WORKERS: "2"
+      GUNICORN_THREADS: "2"
+      GUNICORN_TIMEOUT: "60"
+    volumes:
+      - static_files:/app/static
+      - uploads_data:/app/uploads
+      - backups_data:/backups
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - frontend
+      - backend
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=3)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16.8-alpine
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB:-dv_odonto}"
+      POSTGRES_USER: "${POSTGRES_USER:-dvuser}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?Configure POSTGRES_PASSWORD in .env}"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    command: ["postgres", "-c", "shared_preload_libraries=pg_stat_statements"]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/postgres/01-app-role.sql:/opt/dv-init/01-app-role.sql:ro
+      - ./infra/postgres/01-create-app-role.sh:/docker-entrypoint-initdb.d/01-create-app-role.sh:ro
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - backend
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dvuser} -d ${POSTGRES_DB:-dv_odonto}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  # ── Redis — sessoes e rate limiting ────────────────────────────────────────
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    command: >
+      redis-server
+      --save 60 1
+      --appendonly yes
+      --appendfsync everysec
+      --loglevel warning
+      --requirepass "${REDIS_PASSWORD:?Configure REDIS_PASSWORD in .env}"
+      --maxmemory 96mb
+      --maxmemory-policy noeviction
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend
+    expose:
+      - "6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:?Configure REDIS_PASSWORD in .env}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+
+  # ── Backup automatico ───────────────────────────────────────────────────────
+  backup:
+    build:
+      context: ./infra/backup
+      dockerfile: Dockerfile
+    image: dv-odonto-backup:16.8
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PGPASSWORD: "${POSTGRES_PASSWORD:?Configure POSTGRES_PASSWORD in .env}"
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: "${POSTGRES_DB:-dv_odonto}"
+      POSTGRES_USER: "${POSTGRES_USER:-dvuser}"
+      BACKUP_RETENTION_DAYS: "${BACKUP_RETENTION_DAYS:-30}"
+      BACKUP_AGE_RECIPIENT: "${BACKUP_AGE_RECIPIENT:?Configure BACKUP_AGE_RECIPIENT in .env}"
+    volumes:
+      - backups_data:/backups
+    entrypoint: ["/bin/sh", "-c", "echo '0 2 * * * /bin/sh /backup.sh >/proc/1/fd/1 2>&1' | crontab - && crond -f -d 8"]
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 64M
+  # ── Monitoramento: Prometheus ───────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=15d"
+      - "--web.enable-lifecycle"
+    volumes:
+      - ./infra/prometheus:/etc/prometheus:ro
+      - prometheus_data:/prometheus
+    networks:
+      - frontend
+      - backend
+    expose:
+      - "9090"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+
+  # ── Monitoramento: Grafana ──────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:11.5.2
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: "${GRAFANA_ADMIN_USER:-dvadmin}"
+      GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASSWORD:?Configure GRAFANA_ADMIN_PASSWORD in .env}"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./infra/grafana/provisioning:/etc/grafana/provisioning:ro
+    networks:
+      - frontend
+    expose:
+      - "3000"
+    depends_on:
+      - prometheus
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+
+  # ── Exporters ───────────────────────────────────────────────────────────────
+  node-exporter:
+    image: prom/node-exporter:v1.9.0
+    restart: unless-stopped
+    pid: host
+    networks:
+      - backend
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 64M
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.16.0
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "postgresql://dvapp:${POSTGRES_APP_PASSWORD:?Configure POSTGRES_APP_PASSWORD in .env}@db:5432/${POSTGRES_DB:-dv_odonto}?sslmode=disable"
+    networks:
+      - backend
+    expose:
+      - "9187"
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 64M
+
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.69.0
+    restart: unless-stopped
+    environment:
+      REDIS_ADDR: "redis://redis:6379"
+      REDIS_PASSWORD: "${REDIS_PASSWORD:?Configure REDIS_PASSWORD in .env}"
+    networks:
+      - backend
+    expose:
+      - "9121"
+    depends_on:
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 64M
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.4.1
+    restart: unless-stopped
+    command:
+      - "-nginx.scrape-uri=http://nginx:8081/nginx_status"
+    networks:
+      - frontend
+    expose:
+      - "9113"
+    depends_on:
+      - nginx
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 64M
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  static_files:
+    driver: local
+  uploads_data:
+    driver: local
+  backups_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+    internal: true

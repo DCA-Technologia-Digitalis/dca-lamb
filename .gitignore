@@ -1,0 +1,57 @@
+# Python
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.pytest-run*/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Local secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+!.env.homologation.test.example
+credentials.toml
+**/credentials.toml
+machine_id_v4
+*.pem
+*.key
+
+# Editor, dependencies, logs, and local backups
+.vscode/
+node_modules/
+*.log
+backups/
+
+# Pastas de backup/cópias antigas do projeto
+DV-Odonto/
+DV-Odonto-seguranca/
+DV-Odonto-backup-final/
+
+# Preserve the SQLite files in the local project tree.
+!dv_odonto.db
+!data/dv_odonto.db
+
+# Segredos e dados locais
+.env
+.env.*
+!.env.example
+!.env.homologation.test.example
+*.db
+*.sqlite
+*.sqlite3
+__pycache__/
+.venv/
+venv/

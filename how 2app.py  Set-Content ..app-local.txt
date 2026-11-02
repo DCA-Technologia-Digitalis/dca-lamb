@@ -1,0 +1,139 @@
+[1mdiff --cc README.md[m
+[1mindex 4f9b2ac,6f014fb..0000000[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@@ -447,188 -447,6 +447,191 @@@[m [mO objetivo do DV Odonto é construir um[m
+  [m
+  ---[m
+  [m
+[32m++<<<<<<< HEAD[m
+[32m +# 🏥 Portal DV Saúde — estado atual[m
+[32m +[m
+[32m +A aplicação deste repositório é Flask com SQLite (não Django/PostgreSQL). Para desenvolvimento[m
+[32m +sem container, `python app.py` inicia o servidor de desenvolvimento; para execução containerizada,[m
+[32m +use a seção Docker abaixo, que inicia o Gunicorn. O portal central está em `/` e preserva as[m
+[32m +rotas odontológicas existentes.[m
+[32m +[m
+[32m +| Área | Rotas | Estado implementado |[m
+[32m +| --- | --- | --- |[m
+[32m +| DV Prontuário | `/prontuario/`, `/prontuario` | Reutiliza o registro SOAP existente |[m
+[32m +| DV Odonto | `/odonto/`, `/pacientes`, `/odontograma`, `/agenda`, `/documentos` | Área existente acessível pelo portal |[m
+[32m +| DV Farmácia SUS | `/farmacia-sus/` e subrotas | Cadastro de medicamentos, lotes, entradas, saídas, dispensações e relatórios locais |[m
+[32m +| DV Gestão Pública | `/gestao-publica/` | Cadastro básico de unidades, profissionais e indicadores existentes |[m
+[32m +| DV Integrações | `/integracoes/` | Exibe conectores como não configurados |[m
+[32m +| Busca global | `/busca/` | Busca limitada a nomes de pacientes e medicamentos; somente perfil ADMIN |[m
+[32m +[m
+[32m +As rotas de aplicação exigem autenticação, com permissões clínicas, farmacêuticas e administrativas[m
+[32m +para as áreas novas. As operações farmacêuticas exigem token CSRF, justificativa, quantidades[m
+[32m +positivas e transação SQLite; movimentos concluídos permanecem no histórico e não podem ser apagados[m
+[32m +pela interface. Administradores autenticados podem cadastrar contas em `/usuarios`; o cadastro web e[m
+[32m +o endpoint `POST /api/auth/register` exigem perfil ADMIN e token CSRF. Senhas novas precisam ter no[m
+[32m +mínimo 12 caracteres e são armazenadas com hash Werkzeug.[m
+[32m +[m
+[32m +Para produção, configure `SECRET_KEY` com um valor aleatório forte e habilite[m
+[32m +`SESSION_COOKIE_SECURE=true` somente quando o site estiver servido por HTTPS. Sem `SECRET_KEY`, a[m
+[32m +aplicação recusa iniciar quando executada com `PORT` definido; em desenvolvimento local é usada uma[m
+[32m +chave temporária, que invalida as sessões quando o processo reinicia.[m
+[32m +Em uma instalação vazia, defina `INITIAL_ADMIN_PASSWORD` (mínimo de 12 caracteres) antes da[m
+[32m +primeira inicialização para criar a conta administrativa. Essa variável **não** altera contas[m
+[32m +existentes. O administrador legado com a senha pública de bootstrap continua bloqueado no login;[m
+[32m +para recuperar somente essa conta, use o comando interativo abaixo. Ele exige uma senha nova[m
+[32m +digitada com entrada oculta, cria e valida um backup antes de alterar o hash, e recusa modificar a[m
+[32m +conta se ela não corresponder exatamente ao estado legado. Nenhuma conta é criada ou substituída[m
+[32m +durante a recuperação.[m
+[32m +[m
+[32m +**Limitações importantes:** o banco atual não associa usuários a organizações/unidades. Até essa[m
+[32m +estrutura de permissões ser implementada e testada, as novas áreas administrativas/farmacêuticas não[m
+[32m +oferecem isolamento multiunidade e devem ser usadas apenas em ambiente controlado. Dispensações não[m
+[32m +validam prescrições; não existem conectores validados para e-SUS APS, LEDI, RNDS, e-SUS AF ou Hórus.[m
+[32m +O prontuário ainda não implementa deduplicação de pacientes, alergias/medicamentos estruturados,[m
+[32m +exames ou encaminhamentos; a busca global cobre somente nomes de pacientes e medicamentos. O módulo[m
+[32m +de farmácia não oferece edição de cadastro, exportação de relatórios nem vínculo da dispensação a[m
+[32m +uma prescrição/paciente.[m
+[32m +Não use o sistema para atendimento real ou produção até uma revisão de segurança, privacidade,[m
+[32m +backup/restauração e autorização por unidade.[m
+[32m +[m
+[32m +---[m
+[32m +[m
+[32m +## Execução local com Docker Desktop e WSL 2[m
+[32m +[m
+[32m +O container executa a aplicação Flask com Gunicorn, ligado a `0.0.0.0:8000` dentro do[m
+[32m +container. No Windows, a porta fica limitada ao próprio computador em[m
+[32m +`http://localhost:8000`. O Flask em modo de desenvolvimento (`python app.py`) não é usado[m
+[32m +por este fluxo.[m
+[32m +[m
+[32m +### Preparar e iniciar[m
+[32m +[m
+[32m +Abra o PowerShell na pasta que contém este README. Crie `.env` uma única vez com uma chave[m
+[32m +aleatória privada (não a publique nem a envie ao GitHub):[m
+[32m +[m
+[32m +```powershell[m
+[32m +if (-not (Get-Command docker.exe -ErrorAction SilentlyContinue)) {[m
+[32m +    $dockerDir = Join-Path $env:LOCALAPPDATA 'Programs\DockerDesktop\resources\bin'[m
+[32m +    if (-not (Test-Path (Join-Path $dockerDir 'docker.exe'))) {[m
+[32m +        throw "Docker CLI não encontrado. Verifique a instalação do Docker Desktop."[m
+[32m +    }[m
+[32m +    $env:PATH = "$dockerDir;$env:PATH"[m
+[32m +}[m
+[32m +[m
+[32m +if (-not (Test-Path .env)) {[m
+[32m +    $bytes = New-Object byte[] 32[m
+[32m +    $rng = [Security.Cryptography.RandomNumberGenerator]::Create()[m
+[32m +    try {[m
+[32m +        $rng.GetBytes($bytes)[m
+[32m +        $secret = [BitConverter]::ToString($bytes).Replace('-', '').ToLowerInvariant()[m
+[32m +        "SECRET_KEY=$secret" | Set-Content -Encoding ascii .env[m
+[32m +    }[m
+[32m +    finally {[m
+[32m +        $rng.Dispose()[m
+[32m +        Remove-Variable bytes, rng, secret -ErrorAction SilentlyContinue[m
+[32m +    }[m
+[32m +} else {[m
+[32m +    Write-Host ".env já existe; mantendo a chave atual."[m
+[32m +}[m
+[32m +```[m
+[32m +[m
+[32m +Não sobrescreva um `.env` existente; preserve a mesma `SECRET_KEY` entre reinicializações[m
+[32m +para manter as sessões válidas. Em seguida, valide e construa antes de iniciar:[m
+[32m +[m
+[32m +```powershell[m
+[32m +New-Item -ItemType Directory -Force .\backups | Out-Null[m
+[32m +docker compose config --quiet[m
+[32m +docker compose build[m
+[32m +docker compose up -d[m
+[32m +docker compose ps[m
+[32m +Invoke-WebRequest -UseBasicParsing http://localhost:8000/login |[m
+[32m +    Select-Object StatusCode[m
+[32m +```[m
+[32m +[m
+[32m +O último comando faz uma requisição HTTP real; o resultado esperado é `200`. O Compose[m
+[32m +também marca o serviço como saudável após uma verificação HTTP em `/login`.[m
+[32m +[m
+[32m +### Logs e parada[m
+[32m +[m
+[32m +```powershell[m
+[32m +docker compose logs -f web[m
+[32m +docker compose stop[m
+[32m +```[m
+[32m +[m
+[32m +Para iniciar novamente, use `docker compose up -d`. Não use `docker compose down -v` nem[m
+[32m +apague as pastas de dados.[m
+[32m +[m
+[32m +### Recuperar o administrador legado e cadastrar usuários[m
+[32m +[m
+[32m +Depois de reconstruir a imagem com as correções de autenticação, execute no PowerShell dentro da[m
+[32m +pasta do projeto:[m
+[32m +[m
+[32m +```powershell[m
+[32m +docker compose exec web flask --app app recover-legacy-admin[m
+[32m +```[m
+[32m +[m
+[32m +Digite a nova senha (12 ou mais caracteres) duas vezes quando solicitado; a entrada fica oculta e[m
+[32m +não deve ser enviada por chat nem gravada em comandos ou logs. O comando salva um snapshot SQLite[m
+[32m +validado em `.\backups\` antes de atualizar exclusivamente o hash da conta `admin` legada. Se a[m
+[32m +conta já não estiver no estado legado, o comando termina sem alterar contas. Em seguida, entre em[m
+[32m +`http://localhost:8000/login` como `admin` usando a senha recém-definida. Acesse `/usuarios` com[m
+[32m +essa conta para cadastrar outros usuários e atribuir perfis.[m
+[32m +[m
+[32m +No modo local (sem Docker), pare o servidor antes da recuperação e execute o mesmo comando Flask[m
+[32m +na pasta deste 

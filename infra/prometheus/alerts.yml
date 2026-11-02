@@ -1,0 +1,42 @@
+groups:
+  - name: dv-odonto-availability
+    rules:
+      - alert: ScrapeTargetDown
+        expr: up{job=~"dv-app|node|nginx|postgres|redis"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus nao consegue coletar {{ $labels.job }}"
+          description: "O alvo {{ $labels.instance }} esta indisponivel ha mais de cinco minutos."
+
+      - alert: ApplicationHighErrorRate
+        expr: |
+          sum(rate(dv_http_requests_total{status=~"5.."}[5m]))
+          / clamp_min(sum(rate(dv_http_requests_total[5m])), 0.001) > 0.05
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Taxa de erro HTTP elevada"
+          description: "Mais de 5% das requisicoes retornaram erro 5xx nos ultimos dez minutos."
+
+      - alert: HostDiskSpaceLow
+        expr: |
+          (node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"}
+          / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) < 0.10
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Pouco espaco livre em disco"
+          description: "O filesystem {{ $labels.mountpoint }} tem menos de 10% de espaco livre."
+
+      - alert: RedisMemoryHigh
+        expr: redis_memory_used_bytes / clamp_min(redis_memory_max_bytes, 1) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Redis aproxima-se do limite de memória"
+          description: "Sessões e rate limits podem falhar se o limite configurado for atingido."

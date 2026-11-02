@@ -1,0 +1,188 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.6, pytest-9.1.1, pluggy-1.7.0 -- c:\Users\dca77\Downloads\DV-Odonto-main\.venv-1\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: c:\Users\dca77\Downloads\DV-Odonto-main\DV-Odonto-main
+configfile: pytest.ini
+collecting ... collected 23 items
+
+tests/test_authentication.py::test_login_page_carrega ERROR              [  4%]
+tests/test_authentication.py::test_login_senha_correta_redireciona ERROR [  8%]
+tests/test_authentication.py::test_login_senha_errada_retorna_erro ERROR [ 13%]
+tests/test_authentication.py::test_login_usuario_inexistente ERROR       [ 17%]
+tests/test_authentication.py::test_usuario_logado_redireciona_para_index ERROR [ 21%]
+tests/test_authentication.py::test_definir_e_verificar_pin ERROR         [ 26%]
+tests/test_authentication.py::test_pin_invalido_rejeitado ERROR          [ 30%]
+tests/test_authentication.py::test_login_pin_correto_redireciona ERROR   [ 34%]
+tests/test_authentication.py::test_login_pin_errado_retorna_erro ERROR   [ 39%]
+tests/test_authentication.py::test_pin_bloqueio_apos_5_tentativas ERROR  [ 43%]
+tests/test_authentication.py::test_logout_limpa_sessao ERROR             [ 47%]
+tests/test_authentication.py::test_logout_sem_csrf_rejeitado ERROR       [ 52%]
+tests/test_authentication.py::test_logout_get_nao_permitido ERROR        [ 56%]
+tests/test_authentication.py::test_rota_protegida_sem_login_redireciona ERROR [ 60%]
+tests/test_authentication.py::test_recepcao_nao_acessa_modulo_clinico ERROR [ 65%]
+tests/test_authentication.py::test_admin_acessa_todos_modulos ERROR      [ 69%]
+tests/test_authentication.py::test_definir_senha_incrementa_session_version ERROR [ 73%]
+tests/test_authentication.py::test_senha_curta_rejeitada ERROR           [ 78%]
+tests/test_authentication.py::test_autenticar_sem_senha_retorna_none ERROR [ 82%]
+tests/test_authentication.py::test_migracao_preserva_dados PASSED        [ 86%]
+tests/test_authentication.py::test_manifest_acessivel ERROR              [ 91%]
+tests/test_authentication.py::test_service_worker_acessivel ERROR        [ 95%]
+tests/test_authentication.py::test_offline_page_retorna_503 ERROR        [100%]
+
+=================================== ERRORS ====================================
+__________________ ERROR at setup of test_login_page_carrega __________________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+___________ ERROR at setup of test_login_senha_correta_redireciona ____________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+___________ ERROR at setup of test_login_senha_errada_retorna_erro ____________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+______________ ERROR at setup of test_login_usuario_inexistente _______________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+________ ERROR at setup of test_usuario_logado_redireciona_para_index _________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+_______________ ERROR at setup of test_definir_e_verificar_pin ________________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+________________ ERROR at setup of test_pin_invalido_rejeitado ________________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+____________ ERROR at setup of test_login_pin_correto_redireciona _____________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+____________ ERROR at setup of test_login_pin_errado_retorna_erro _____________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+____________ ERROR at setup of test_pin_bloqueio_apos_5_tentativas ____________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+_________________ ERROR at setup of test_logout_limpa_sessao __________________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+______________ ERROR at setup of test_logout_sem_csrf_rejeitado _______________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+_______________ ERROR at setup of test_logout_get_nao_permitido _______________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+_________ ERROR at setup of test_rota_protegida_sem_login_redireciona _________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+__________ ERROR at setup of test_recepcao_nao_acessa_modulo_clinico __________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+______________ ERROR at setup of test_admin_acessa_todos_modulos ______________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+_______ ERROR at setup of test_definir_senha_incrementa_session_version _______
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+________________ ERROR at setup of test_senha_curta_rejeitada _________________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+__________ ERROR at setup of test_autenticar_sem_senha_retorna_none ___________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+__________________ ERROR at setup of test_manifest_acessivel __________________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+_______________ ERROR at setup of test_service_worker_acessivel _______________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+_______________ ERROR at setup of test_offline_page_retorna_503 _______________
+tests\test_authentication.py:47: in client
+    assert database.definir_senha_usuario("admin", "senha-valida-123")
+E   AssertionError: assert False
+E    +  where False = <function definir_senha_usuario at 0x000001C2CDF4A1F0>('admin', 'senha-valida-123')
+E    +    where <function definir_senha_usuario at 0x000001C2CDF4A1F0> = database.definir_senha_usuario
+=========================== short test summary info ===========================
+ERROR tests/test_authentication.py::test_login_page_carrega - AssertionError:...
+ERROR tests/test_authentication.py::test_login_senha_correta_redireciona - As...
+ERROR tests/test_authentication.py::test_login_senha_errada_retorna_erro - As...
+ERROR tests/test_authentication.py::test_login_usuario_inexistente - Assertio...
+ERROR tests/test_authentication.py::test_usuario_logado_redireciona_para_index
+ERROR tests/test_authentication.py::test_definir_e_verificar_pin - AssertionE...
+ERROR tests/test_authentication.py::test_pin_invalido_rejeitado - AssertionEr...
+ERROR tests/test_authentication.py::test_login_pin_correto_redireciona - Asse...
+ERROR tests/test_authentication.py::test_login_pin_errado_retorna_erro - Asse...
+ERROR tests/test_authentication.py::test_pin_bloqueio_apos_5_tentativas - Ass...
+ERROR tests/test_authentication.py::test_logout_limpa_sessao - AssertionError...
+ERROR tests/test_authentication.py::test_logout_sem_csrf_rejeitado - Assertio...
+ERROR tests/test_authentication.py::test_logout_get_nao_permitido - Assertion...
+ERROR tests/test_authentication.py::test_rota_protegida_sem_login_redireciona
+ERROR tests/test_authentication.py::test_recepcao_nao_acessa_modulo_clinico
+ERROR tests/test_authentication.py::test_admin_acessa_todos_modulos - Asserti...
+ERROR tests/test_authentication.py::test_definir_senha_incrementa_session_version
+ERROR tests/test_authentication.py::test_senha_curta_rejeitada - AssertionErr...
+ERROR tests/test_authentication.py::test_autenticar_sem_senha_retorna_none - ...
+ERROR tests/test_authentication.py::test_manifest_acessivel - AssertionError:...
+ERROR tests/test_authentication.py::test_service_worker_acessivel - Assertion...
+ERROR tests/test_authentication.py::test_offline_page_retorna_503 - Assertion...
+======================== 1 passed, 22 errors in 7.87s =========================

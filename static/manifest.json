@@ -1,0 +1,35 @@
+{
+  "name": "DV Saude",
+  "short_name": "DV Saude",
+  "description": "Sistema Integrado de Saude — Odontologia, Prontuario e Farmacia SUS",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#1e3a8a",
+  "orientation": "any",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["medical", "health"],
+  "icons": [
+    {
+      "src": "/static/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Pacientes", "url": "/pacientes", "description": "Lista de pacientes" },
+    { "name": "Agenda",    "url": "/agenda",    "description": "Agenda de consultas" },
+    { "name": "Odontograma", "url": "/odontograma", "description": "Odontograma clinico" }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
