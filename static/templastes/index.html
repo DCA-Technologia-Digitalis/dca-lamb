@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <title>SisDCA — Painel Principal</title>
+</head>
+<body style="margin: 0; background-color: #0f172a; font-family: 'Segoe UI', system-ui, sans-serif; color: white;">
+
+    <header style="padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #0284c7; background-color: #1e293b;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo SisDCA" style="height: 48px; width: auto; object-fit: contain;">
+            <span style="font-size: 24px; font-weight: bold; letter-spacing: 0.5px;">
+                Sis<span style="color: #38bdf8;">DCA</span>
+            </span>
+        </div>
+        
+        <nav style="display: flex; gap: 20px; align-items: center;">
+            <a href="/" style="color: #ffffff; text-decoration: none; font-weight: 500;">Início</a>
+            <a href="/pacientes" style="color: #cbd5e1; text-decoration: none;">Pacientes</a>
+            <a href="/prontuario" style="color: #cbd5e1; text-decoration: none;">Prontuário</a>
+            <a href="/odontograma" style="color: #cbd5e1; text-decoration: none;">Odontograma</a>
+            <a href="/agenda" style="color: #cbd5e1; text-decoration: none;">Agenda</a>
+            <a href="/swagger.json" style="color: #38bdf8; text-decoration: none; font-size: 14px;">API Docs</a>
+            <a href="/logout" style="color: #f87171; text-decoration: none; margin-left: 10px;">Sair</a>
+        </nav>
+    </header>
+
+    <main style="padding: 40px; text-align: center;">
+        <h1 style="color: #38bdf8; font-size: 32px; margin-bottom: 10px;">Bem-vindo ao SisDCA</h1>
+        <p style="color: #94a3b8; font-size: 18px;">Sistema Dental e Gestão Clínica Multiprofissional</p>
+    </main>
+
+</body>
+</html>

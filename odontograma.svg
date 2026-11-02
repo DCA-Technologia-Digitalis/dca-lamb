@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 530" role="img" aria-labelledby="title description">
+  <title id="title">Odontograma digital DV Odonto</title>
+  <desc id="description">Esquema das arcadas permanentes e deciduas com numeracao FDI e faces dentarias.</desc>
+  <defs>
+    <g id="tooth-shape" stroke="#94a3b8" stroke-width="1">
+      <path d="M5 1 Q2 2 2 6 L5 25 Q6 30 16 31 Q26 30 27 25 L30 6 Q30 2 27 1 Q22 0 16 3 Q10 0 5 1Z" fill="#f8fafc"/>
+      <path d="M5 1 L12 8 L16 5 L20 8 L27 1" fill="none"/>
+      <path d="M5 1 L12 8 L10 16 L2 6" fill="#eef2ff"/>
+      <path d="M27 1 L20 8 L22 16 L30 6" fill="#eef2ff"/>
+      <path d="M10 16 L16 11 L22 16 L21 24 L16 27 L11 24Z" fill="#ffffff"/>
+      <path d="M2 6 L10 16 L11 24 L5 25" fill="#f1f5f9"/>
+      <path d="M30 6 L22 16 L21 24 L27 25" fill="#f1f5f9"/>
+      <path d="M5 25 L11 24 L16 27 L21 24 L27 25" fill="none"/>
+      <path d="M16 5 L16 11 M10 16 L22 16 M16 27 L16 31" fill="none"/>
+    </g>
+    <style>
+      text { font-family: Arial, sans-serif; }
+      .panel { fill: #ffffff; stroke: #dbe3ee; stroke-width: 1.5; }
+      .heading { fill: #0f3457; font-size: 22px; font-weight: 700; }
+      .subheading { fill: #64748b; font-size: 12px; }
+      .row-label { fill: #1e3a8a; font-size: 13px; font-weight: 700; }
+      .tooth-number { fill: #334155; font-size: 10px; font-weight: 700; text-anchor: middle; }
+      .legend { fill: #475569; font-size: 12px; }
+    </style>
+  </defs>
+
+  <rect width="960" height="530" rx="18" fill="#f8fafc"/>
+  <text x="480" y="34" class="heading" text-anchor="middle">Odontograma Digital</text>
+  <text x="480" y="54" class="subheading" text-anchor="middle">Referencia dentaria FDI - DV Odonto</text>
+
+  <rect x="48" y="70" width="864" height="92" rx="12" class="panel"/>
+  <text x="68" y="92" class="row-label">Arcada superior (adulto)</text>
+  <g transform="translate(149 101)">
+    <g transform="translate(0 0)"><text x="16" y="11" class="tooth-number">18</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(40 0)"><text x="16" y="11" class="tooth-number">17</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(80 0)"><text x="16" y="11" class="tooth-number">16</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(120 0)"><text x="16" y="11" class="tooth-number">15</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(160 0)"><text x="16" y="11" class="tooth-number">14</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(200 0)"><text x="16" y="11" class="tooth-number">13</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(240 0)"><text x="16" y="11" class="tooth-number">12</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(280 0)"><text x="16" y="11" class="tooth-number">11</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(348 0)"><text x="16" y="11" class="tooth-number">21</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(388 0)"><text x="16" y="11" class="tooth-number">22</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(428 0)"><text x="16" y="11" class="tooth-number">23</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(468 0)"><text x="16" y="11" class="tooth-number">24</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(508 0)"><text x="16" y="11" class="tooth-number">25</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(548 0)"><text x="16" y="11" class="tooth-number">26</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(588 0)"><text x="16" y="11" class="tooth-number">27</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(628 0)"><text x="16" y="11" class="tooth-number">28</text><use href="#tooth-shape" x="1" y="14"/></g>
+  </g>
+
+  <rect x="48" y="170" width="864" height="92" rx="12" class="panel"/>
+  <text x="68" y="192" class="row-label">Denticao decidua (superior)</text>
+  <g transform="translate(266 201)">
+    <g transform="translate(0 0)"><text x="16" y="11" class="tooth-number">55</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(40 0)"><text x="16" y="11" class="tooth-number">54</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(80 0)"><text x="16" y="11" class="tooth-number">53</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(120 0)"><text x="16" y="11" class="tooth-number">52</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(160 0)"><text x="16" y="11" class="tooth-number">51</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(228 0)"><text x="16" y="11" class="tooth-number">61</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(268 0)"><text x="16" y="11" class="tooth-number">62</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(308 0)"><text x="16" y="11" class="tooth-number">63</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(348 0)"><text x="16" y="11" class="tooth-number">64</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(388 0)"><text x="16" y="11" class="tooth-number">65</text><use href="#tooth-shape" x="1" y="14"/></g>
+  </g>
+
+  <rect x="48" y="270" width="864" height="92" rx="12" class="panel"/>
+  <text x="68" y="292" class="row-label">Denticao decidua (inferior)</text>
+  <g transform="translate(266 301)">
+    <g transform="translate(0 0)"><text x="16" y="11" class="tooth-number">85</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(40 0)"><text x="16" y="11" class="tooth-number">84</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(80 0)"><text x="16" y="11" class="tooth-number">83</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(120 0)"><text x="16" y="11" class="tooth-number">82</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(160 0)"><text x="16" y="11" class="tooth-number">81</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(228 0)"><text x="16" y="11" class="tooth-number">71</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(268 0)"><text x="16" y="11" class="tooth-number">72</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(308 0)"><text x="16" y="11" class="tooth-number">73</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(348 0)"><text x="16" y="11" class="tooth-number">74</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(388 0)"><text x="16" y="11" class="tooth-number">75</text><use href="#tooth-shape" x="1" y="14"/></g>
+  </g>
+
+  <rect x="48" y="370" width="864" height="92" rx="12" class="panel"/>
+  <text x="68" y="392" class="row-label">Arcada inferior (adulto)</text>
+  <g transform="translate(149 401)">
+    <g transform="translate(0 0)"><text x="16" y="11" class="tooth-number">48</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(40 0)"><text x="16" y="11" class="tooth-number">47</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(80 0)"><text x="16" y="11" class="tooth-number">46</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(120 0)"><text x="16" y="11" class="tooth-number">45</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(160 0)"><text x="16" y="11" class="tooth-number">44</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(200 0)"><text x="16" y="11" class="tooth-number">43</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(240 0)"><text x="16" y="11" class="tooth-number">42</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(280 0)"><text x="16" y="11" class="tooth-number">41</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(348 0)"><text x="16" y="11" class="tooth-number">31</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(388 0)"><text x="16" y="11" class="tooth-number">32</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(428 0)"><text x="16" y="11" class="tooth-number">33</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(468 0)"><text x="16" y="11" class="tooth-number">34</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(508 0)"><text x="16" y="11" class="tooth-number">35</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(548 0)"><text x="16" y="11" class="tooth-number">36</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(588 0)"><text x="16" y="11" class="tooth-number">37</text><use href="#tooth-shape" x="1" y="14"/></g>
+    <g transform="translate(628 0)"><text x="16" y="11" class="tooth-number">38</text><use href="#tooth-shape" x="1" y="14"/></g>
+  </g>
+
+  <g transform="translate(182 493)">
+    <rect x="0" y="-10" width="14" height="14" rx="3" fill="#ef4444"/>
+    <text x="22" y="1" class="legend">Pendente</text>
+    <rect x="170" y="-10" width="14" height="14" rx="3" fill="#22c55e"/>
+    <text x="192" y="1" class="legend">Concluido</text>
+    <path d="M340 -9 L354 5 M354 -9 L340 5" stroke="#ef4444" stroke-width="2"/>
+    <text x="362" y="1" class="legend">Ausente / extraido</text>
+    <text x="700" y="1" class="subheading" text-anchor="end">V / O / M / D / L</text>
+  </g>
+</svg>

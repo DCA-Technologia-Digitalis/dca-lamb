@@ -1,0 +1,84 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DV Odonto API",
+    "description": "API do sistema de gestão odontológica DV Odonto",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://dv-odonto.onrender.com",
+      "description": "Servidor de produção"
+    }
+  ],
+  "paths": {
+    "/api/pacientes": {
+      "get": {
+        "summary": "Lista pacientes",
+        "responses": {
+          "200": {
+            "description": "Lista de pacientes"
+          }
+        }
+      },
+      "post": {
+        "summary": "Cadastrar paciente",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "telefone": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Paciente criado"
+          }
+        }
+      }
+    },
+
+    "/api/agenda": {
+      "get": {
+        "summary": "Lista agenda",
+        "responses": {
+          "200": {
+            "description": "Agenda retornada"
+          }
+        }
+      }
+    },
+
+    "/api/odontograma": {
+      "get": {
+        "summary": "Consulta odontograma",
+        "responses": {
+          "200": {
+            "description": "Dados odontograma"
+          }
+        }
+      }
+    },
+
+    "/api/documentos": {
+      "get": {
+        "summary": "Lista documentos",
+        "responses": {
+          "200": {
+            "description": "Documentos retornados"
+          }
+        }
+      }
+    }
+  }
+}
